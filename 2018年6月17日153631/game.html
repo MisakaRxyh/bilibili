@@ -46,7 +46,34 @@
         return object
     }
 
-
+    var Ball = function () {
+        var img = imageFromPath('ball.png')
+        var object = {
+            image: img,
+            x: 100,
+            y: 100,
+            speedX: 10,
+            speedY: 10,
+            fired: false,
+        }
+        object.fire = function () {
+            object.fired = true
+        }
+        object.move = function () {
+            if(object.fired){
+                if(object.x < 0 || object.x > 350){
+                    object.speedX = -object.speedX
+                }
+                if(object.y < 0 || object.y > 250){
+                    object.speedY = -object.speedY
+                }
+                // move
+                object.x += object.speedX
+                object.y += object.speedY
+            }
+        }
+        return object
+    }
 
     var GuaGame = function () {
         var game = {
@@ -115,11 +142,17 @@
             paddle.moveRight()
         })
 
+        game.registerAction('f', function () {
+            ball.fire()
+        })
+
         game.update = function () {
+            ball.move()
         }
 
         game.draw = function () {
             game.drawImage(paddle)
+            game.drawImage(ball)
         }
 
     }
